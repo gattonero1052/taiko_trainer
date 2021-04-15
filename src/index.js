@@ -1,17 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import Load from './load';
+import Demo from './demo';
+import Raw from './rawdemo';
+import Menu from "./menu";
+import Play from "./play2";
+import {
+    MemoryRouter as Router,
+    Switch,
+    Route,
+} from "react-router-dom";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <Router>
+          <Switch>
+              <Route path={'/'} exact={true}>
+                  <Load/>
+              </Route>
+              <Route path={'/menu'} exact={true}>
+                  <Menu/>
+              </Route>
+              <Route path={'/practise'} exact={true}>
+                  <Play/>
+              </Route>
+          </Switch>
+      </Router>,
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

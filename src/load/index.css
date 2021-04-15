@@ -1,0 +1,24 @@
+@font-face {
+    font-family: 'TnT';
+    src: local('TnT'), url(../assets/font/TnT.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'fzkt';
+    src: local('fzkt'), url(../assets/font/fzkt.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'qnyy';
+    src: local('qnyy'), url(../assets/font/qnyy.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'Kozuka';
+    src: local('Kozuka'), url(../assets/font/Kozuka.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'taiko';
+    src: local('taiko'), url(../assets/font/taiko.ttf) format('truetype');
+}

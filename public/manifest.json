@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Taiko Trainer",
+  "name": "Taiko no tatsujin Trainer",
   "icons": [
     {
       "src": "favicon.ico",
