@@ -28,3 +28,6 @@ yarn-error.log*
 .eslintcache
 *.zip
 *.code-workspace
+
+package-lock.json
+yarn.lock
