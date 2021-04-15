@@ -1,70 +1,24 @@
-# Getting Started with Create React App
+# Taiko trainer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a unofficial simulator for taiko no tatsujin game. 这是非官方版的太鼓达人模拟器
 
-## Available Scripts
+This is designed to be a single player game for practising. 设计的目的是作为单人模式提供练习功能
 
-In the project directory, you can run:
+You can control the speed and progress to improve your skills.
+Like you can adjust the speed anywhere and restart from the last stop. 可以随时调节歌曲的速度并且从上一个停止的地方开始不断重新开始
 
-### `yarn start`
+Some of the features are trimmed like the scoring, you can try [Taiko Web](https://taiko.bui.pm/) for a more immersive experience.
+[Taiko Web](https://taiko.bui.pm/) 是纯粹的太鼓模拟器，细节做得很完美，
+### Known Issues 目前的问题
+- Progress in the result page is not correct for diversed songs. 有谱面分歧的歌曲可能最后的结果展示有问题
+- Not all songs are tested. 未经过完整测试所有歌曲
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Possible improvements 改进方向
+- Add local history for best results. 添加最好成绩的历史记录
+- Add favorite songs. 添加喜爱的歌曲
+- Click progress in the result page to move to the corresponding measure. 可以通过在结果页选择进度，直接跳转到对应的小节
+- Upload song from local disk 本地上传歌曲
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Not in TODO list 不打算做的
+- 适配移动端
+- 多人游戏
