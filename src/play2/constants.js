@@ -188,7 +188,7 @@ const STATIC_TEXT_STYLE = {
         dropShadowDistance: 10,
     },
     soul: {
-        fontFamily: 'fzkt',
+        fontFamily: 'qnyy',
         fontWeight: 'bold',
         stroke: '#000000',
         strokeThickness: 15,

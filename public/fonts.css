@@ -4,11 +4,6 @@
 }
 
 @font-face {
-    font-family: 'fzkt';
-    src: local('fzkt'), url(../../public/fonts/fzkt.ttf) format('truetype');
-}
-
-@font-face {
     font-family: 'qnyy';
     src: local('qnyy'), url(../../public/fonts/qnyy.ttf) format('truetype');
 }

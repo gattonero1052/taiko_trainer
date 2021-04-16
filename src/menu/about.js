@@ -32,19 +32,19 @@ const Modal = ({ currentSongRef, isOpen, setIsOpen, onClose = () => { } }) => {
     }}>
         <div className={`modal-content`}>
             <div className='about'>
-                <div class='name'>Instruction:</div>
-                <div class='content'>
+                <div className='name'>Instruction:</div>
+                <div className='content'>
                     <p>This is a unofficial simulator for taiko no tatsujin game.</p>
                     <p>This is designed to be a single player game for practising.</p>
                     <p>You can control the speed and progress to improve your skills.</p>
                     <p>Some of the features are trimmed like the scoring, </p>
                     <p>you can try <a href="https://taiko.bui.pm/" target="_blank">Taiko Web</a> for a more immersive experience</p>
                 </div>
-                <div class='name'>Control:</div>
-                <div class='content'>D,F,J,K to Hit</div>
-                <div class='content'>Q to adjust progress</div>
-                <div class='content'>Space to pause</div>
-                <div class='content'>Esc to pause and open menu</div>
+                <div className='name'>Control:</div>
+                <div className='content'>D,F,J,K to Hit</div>
+                <div className='content'>Q to adjust progress</div>
+                <div className='content'>Space to pause</div>
+                <div className='content'>Esc to pause and open menu</div>
             </div>
             <div className='author'>
                 <div style={{justifySelf:'flex-end'}}>Contact Author:</div>

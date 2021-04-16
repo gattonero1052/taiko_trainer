@@ -13,7 +13,7 @@ import {
 } from "react-router-dom";
 import { PlaySound } from '../sound'
 import { pressed, ClampValue } from "../play2/utils";
-import { DefaultGlobalState as overall, DefaultGameState as game } from '../play2/game'
+import { DefaultGlobalState as overall, DefaultGameState as game, DefaultGameState } from '../play2/game'
 // import * as PIXI  from 'pixi-sound'
 import PIXISound from 'pixi-sound'
 import SettingMenu from './settings'
@@ -37,11 +37,79 @@ const playSong = ({ data, history }) => {
         tab = overall.loader.resources[`tab-${data.id}`]
     // console.log(song,tab)
     PIXISound.stopAll()
-    if (!song || !tab) {//waiting for resouce to be loaded
+    if (!song || !tab ||!song.data ||!tab.data) {//waiting for resouce to be loaded
         return
     }
     history.push('/practise', data);
 }
+
+class LoadQ{
+    constructor(loader, maxSize = 5){
+        this.loader = loader
+        this.q = []
+        this._q = []
+        this._callback = null
+        this.maxSize = maxSize
+        this.progress = {} // song id: progress percent (0-100)
+        this._lastUpdateProgressTS = 0
+    }
+
+    push(next){
+        if (this.q.length<this.maxSize)
+            this.q.push(next)
+        
+        this._pushProgress(next.id,0)
+
+        if (this.q.length == 1)//from 0 to 1
+            this.run()
+    }
+
+    run(){
+        if (this.q.length == 0) return
+
+        let {id,resources,callback} = this.q[0]
+        let last = this.loader
+        
+        while (resources.length){
+            let [name,path] = resources.splice(0,1)[0]
+            // console.log(name,path);
+            last = last.add(name,path)
+        }
+
+        last.load((loader,resources)=>{
+            callback(loader,resources)
+            this._pushProgress(id,100)
+            this.q.splice(0,1)
+            this.run()
+        })
+
+        last.onProgress.once((loader)=>{
+            let time = new Date().getTime()
+
+            console.log(loader.progress,this.progress);
+
+            if (time>this._lastUpdateProgressTS + this.minInterval){
+                this._lastUpdateProgressTS = time
+                this._pushProgress(id,~~loader.progress)
+            }
+        })
+    }
+
+    _pushProgress(id,percentage){
+        let newProgressObj = {}
+        newProgressObj[id] = {percentage}
+        this.progress = Object.assign({...this.progress},newProgressObj)
+        this._onProgress(this.progress)
+    }
+
+    onProgress(callback,minInterval = 0){
+        this._onProgress = callback
+        this.minInterval = minInterval
+    }
+}
+
+
+let loadQ = null
 
 const LoadMenuItems = ['searchColumn', 'searchContent', 'page', 'activeMenuItemIndex']
 
@@ -52,8 +120,10 @@ const Table = ({ data, parentKeyDown, currentSongRef }) => {
     const [selectedRow, setSelectedRow] = useState(0)
     const [prevExpandedRow, setPrevExpandedRow] = useState(-1) // show close animation
     const [selectedSubSong, setSelectedSubSong] = useState(0)
+    const selectedSong = useRef(null)
     const [searchingColumn, setSearchingColumn] = useState(null)
     const [loadedMenuCacheIndex, setLoadedMenuCacheIndex] = useState(-1)
+    const [progress,setProgress] = useState({})
     const history = useHistory()
     const inputRefs = useRef({})
 
@@ -114,6 +184,7 @@ const Table = ({ data, parentKeyDown, currentSongRef }) => {
     let expectedPagination = useRef(pagination)
 
     useEffect(() => {
+        loadQ.onProgress(setProgress)
         setTimeout(()=>{
             for (let i = 0; i < LoadMenuItems.length; i++) {
                 if (i == loadedMenuCacheIndex + 1) {
@@ -176,7 +247,6 @@ const Table = ({ data, parentKeyDown, currentSongRef }) => {
             activeMenuItemIndex:expanded
         })
 
-        console.log(DATA);
     }, [pagination,pagination,expanded]) // do not need an indicator because pagination changes when input changes
 
     useEffect(() => {
@@ -186,40 +256,47 @@ const Table = ({ data, parentKeyDown, currentSongRef }) => {
         setSelectedRow(index => ClampValue(0, index, tableData.length - 1))
     }, [tableData.length])
 
+    console.log(progress);
     useEffect(async () => {
         if (expanded !== -1) {
             async function fetchData() {
-                let playCurrentSong = (loader, resources) => {
+                const songObj = tableData[expanded]
+                const soundFile = songObj['sound']
+                const tabFile = songObj['tja']
+                const genre = songObj['Genre']
+                const id = songObj['id']
+                if(!songObj['remote_files']) return
+                const remoteSoundFile = songObj['remote_files']['ogg']
+                const remoteTabFile = songObj['remote_files']['tja']
+                const loader = overall.loader
+
+                const playCurrentSong = (loader, resources) => {
+
+                    //prevent callback
+                    if(DefaultGameState.tabSong) return
+            
                     let song = resources[`song-${id}`].sound
                     // console.log(id)
                     currentSongRef.current = song
                     PIXISound.volumeAll = songObj['vol'] || 1
                     if (song) {
                         song.volume = overall.musicVolume
-                        song.play({
-                            start: songObj['demostart'] || 0,
-                        })
+                        if(selectedSong.current && selectedSong.current.id == songObj.id)
+                            song.play({
+                                start: songObj['demostart'] || 0,
+                            })
                     }
                     else
                         console.error(genre, songObj, id)
                 }
 
-                const songObj = tableData[expanded]
-                const soundFile = songObj['sound']
-                const tabFile = songObj['tja']
-                const genre = songObj['Genre']
-                const id = songObj['id']
-                const loader = overall.loader
-
                 if (loader.resources[`song-${id}`]) {
                     playCurrentSong(loader, loader.resources)
                 } else {
-                    loader
-                        .add(`song-${id}`, `/song/${genre}/${soundFile}`)
-                        .add(`tab-${id}`, `/song/${genre}/${tabFile}`)
-                        .load(function (loader, resources) {
-                            playCurrentSong(loader, resources)
-                        })
+                    // loadQ.push({id,resources:[[`song-${id}`, `/song/${genre}/${soundFile}`],[`tab-${id}`, `/song/${genre}/${tabFile}`]],callback:(loader,resources)=>{
+                    loadQ.push({id,resources:[[`song-${id}`, remoteSoundFile],[`tab-${id}`, remoteTabFile]],callback:(loader,resources)=>{
+                        playCurrentSong(loader, resources)
+                    }})
                 }
 
             }
@@ -237,6 +314,7 @@ const Table = ({ data, parentKeyDown, currentSongRef }) => {
             if (expanded !== index) {
                 setPrevExpandedRow(expanded)
                 setExpanded(index)
+                selectedSong.current =tableData[index]
                 setSelectedSubSong(0)
             }
         } else {
@@ -374,8 +452,18 @@ const Table = ({ data, parentKeyDown, currentSongRef }) => {
             </div>
         </div>
         <div className={'tbody'}>
-            {tableData.map((row, index) => (
-                <div style={{ backgroundColor: Genre[row['Genre']]['color'] }} className={`tr tr- ${index === selectedRow ? (index !== expanded ? 'tr-selected' : 'tr-expanded tr-selected-' + row['subSongs'].length) : ''} ${index === expanded ? 'tr-e-' + row['subSongs'].length : ''} ${index === prevExpandedRow ? 'tr-e-' + row['subSongs'].length + 'b' : ''}`} onClick={() => { PlaySound('menu-don'); onClickRow(index); }} key={row['id'] ? row['id'] : index}>
+            {tableData.map((row, index) => {
+                let baseColor = Genre[row['Genre']]['color'];
+                let style = { }
+                if(progress[row.id] && progress[row.id].percentage < 100){
+                    let curProgress = progress[row.id].percentage;
+
+                    // console.log(progress,progress[row.id],curProgress.percentage)
+                    style.background = `linear-gradient(to right, ${baseColor},${baseColor} ${Math.max(0,curProgress-1)}%,white ${curProgress}%,rgb(170,170,170,.5) ${Math.min(100,curProgress+1)}% ,transparent 100%)`
+                }else{
+                    style.backgroundColor = baseColor
+                }
+            return (<div style={style} className={`tr tr- ${index === selectedRow ? (index !== expanded ? 'tr-selected' : 'tr-expanded tr-selected-' + row['subSongs'].length) : ''} ${index === expanded ? 'tr-e-' + row['subSongs'].length : ''} ${index === prevExpandedRow ? 'tr-e-' + row['subSongs'].length + 'b' : ''}`} onClick={() => { PlaySound('menu-don'); onClickRow(index); }} key={row['id'] ? row['id'] : index}>
                     {
                         <>
                             <div className={`td-b ${expanded === index ? 'td-sub-title' : ''}`}
@@ -404,7 +492,7 @@ const Table = ({ data, parentKeyDown, currentSongRef }) => {
                         </>
                     }
                 </div>
-            ))}
+            )})}
         </div>
         <div className={'tfooter'}>
             <div className={'tr'}>
@@ -433,6 +521,9 @@ const Setting = ({ currentSongRef, parentKeyDown }) => {
 const Menu = () => {
     useLocalStorage(true)
 
+    loadQ = new LoadQ(overall.loader)
+    DefaultGameState.tabSong = null
+    
     const currentSongRef = useRef(null)
     const tableKeyDown = useRef()
     const settingKeyDown = useRef()

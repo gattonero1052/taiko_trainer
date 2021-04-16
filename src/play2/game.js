@@ -74,7 +74,7 @@ class TabSong {
         }else{//after music starts
             if(!this.instance){
                 this.instance = this.song.play(this.config)
-                if(this._onComplete instanceof Function)
+                if(this._onComplete instanceof Function && this.instance && this.instance.on instanceof Function)
                     this.instance.on('end',this._onComplete)
                 if(this.delaytimeout) this.game.app.ticker.remove(this.delaytimeout)
                 this.delaytimeout = null

@@ -22,7 +22,12 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+_File.0.json
+
 /.idea
+/.vscode
+
+test.py
 *.iml
 
 .eslintcache

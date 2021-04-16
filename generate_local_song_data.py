@@ -4,11 +4,13 @@ import json
 import uuid
 
 from collections import defaultdict
-
+leanCloudStorageJson = './_File.0.json'
 r = './public/song'
 output_name = 'local_song.json'
 FileEncoding = 'utf8'
 Extreme_Indicators = ['(裏譜面)']
+fileStoragePrefix = 'http://lc-x3QTObAS.cn-n1.lcfile.com/'
+
 def getColor(s):
     m = {
         'anime':'EE5208',
@@ -150,13 +152,39 @@ for subdir,dirs,files in os.walk(r):
                             curSong['demostart'] = float(value)
 
                 f.close()
+with open(leanCloudStorageJson,encoding='utf8') as lcfile:
+    lines = lcfile.readlines()
+    stack = ''
+    remote_files = defaultdict(lambda:{})
+    bracket = 0
+    for line in lines:
+        for c in line:
+            if c in ['\n','\t']:continue
+            if c == '{':
+                bracket += 1
+            if c == '}':
+                bracket -= 1
+                
+            stack += c
             
-for song in data['songs']:
-    for ex in Extreme_Indicators + ['']:
-        title = song['Title'].replace(ex,'')
-        if title in songWithSound:
-            song['sound'] = songWithSound[title]
-    
+            if bracket == 0:
+                file = json.loads(stack)
+                id,filename = file['key'].split(f'/')
+                songname = filename[:filename.rfind('.')]
+                filetype = filename[filename.rfind('.')+1:]
+                remote_files[songname][filetype] = id
+                stack = ''
+
+    for song in data['songs']:
+        if song['Title'] not in remote_files:
+            print(f'Song {song["Title"]} not found')
+        else:
+            song['remote_files'] = {k:fileStoragePrefix + v + f'/{song["Title"]}.{k}' for k,v in remote_files[song['Title']].items()}
+        for ex in Extreme_Indicators + ['']:
+            title = song['Title'].replace(ex,'')
+            if title in songWithSound:
+                song['sound'] = songWithSound[title]
+
 
 data = json.dumps(data,ensure_ascii=False)
 
