@@ -362,7 +362,7 @@ class Ending extends Component {
                 progressResult.push(cur)
             })
 
-            console.log(progressResult);
+            // console.log(progressResult);
         }
     }
 

@@ -113,7 +113,7 @@ const Play = ()=>{
     let tab = tabs.currentTab()
 
     let song = overall.loader.resources[`song-${id}`].sound
-    console.log(tab,song,data)
+    // console.log(tab,song,data)
     game.staticObjects.bgTopIndex = Math.floor(Math.random() * StaticObjects.BG_TOP_TOTAL)
     game.staticObjects.bgBottomIndex = Math.floor(Math.random() * StaticObjects.BG_BOTTOM_TOTAL)
     useEffect(()=>{

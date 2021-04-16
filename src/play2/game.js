@@ -39,14 +39,14 @@ class TabSong {
         let {time} = GetParams(this.game)
 
         // t+=1
-        // if(t==2){
+        // if(t==3){
         //     debugger
         // }
-
         if(time<this.musicStartTime){//before music starts
             if(this.instance) {
                 this.instance.stop()
                 this.instance.destroy()
+                this.nextProgressStart = -1
             }
             //no else because instance only exist after music starts
 

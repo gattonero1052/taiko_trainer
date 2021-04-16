@@ -86,7 +86,7 @@ class LoadQ{
         last.onProgress.once((loader)=>{
             let time = new Date().getTime()
 
-            console.log(loader.progress,this.progress);
+            // console.log(loader.progress,this.progress);
 
             if (time>this._lastUpdateProgressTS + this.minInterval){
                 this._lastUpdateProgressTS = time
@@ -256,7 +256,7 @@ const Table = ({ data, parentKeyDown, currentSongRef }) => {
         setSelectedRow(index => ClampValue(0, index, tableData.length - 1))
     }, [tableData.length])
 
-    console.log(progress);
+    // console.log(progress);
     useEffect(async () => {
         if (expanded !== -1) {
             async function fetchData() {
