@@ -26,6 +26,7 @@ _File.0.json
 
 /.idea
 /.vscode
+/fontsubsets
 
 test.py
 *.iml

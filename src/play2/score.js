@@ -1,6 +1,6 @@
 import {Component} from "react";
 import {GameContext} from "./context";
-import {bind, Score} from "./game";
+import {bind, DefaultGameState, Score} from "./game";
 import {Graphics, withPixiApp,Text} from "@inlet/react-pixi";
 import {DEFAULT_DIMENSIONS, STATIC_TEXT_STYLE} from "./constants";
 import React from 'react'
@@ -18,6 +18,7 @@ class ScoreComponent extends Component{
         super(prop)
         this.comboTextRef = React.createRef(null)
         this.scoreTextRef = React.createRef(null)
+        this.difficultyTextRef = React.createRef(null)
     }
     
     componentDidUpdate() {
@@ -25,6 +26,7 @@ class ScoreComponent extends Component{
         bind(Score, this, game)
         game.score.comboTextRef = this.comboTextRef.current
         game.score.scoreTextRef = this.scoreTextRef.current
+        this.difficultyTextRef.current.text = ['Easy', 'Normal', 'Hard', 'Extreme'][Number(game.tab.config.course)]
     }
 
     onTick(e){
@@ -92,7 +94,7 @@ class ScoreComponent extends Component{
         return (<>
                 <Text ref={this.comboTextRef} {...DEFAULT_DIMENSIONS.SCORE_COMBO} style={STATIC_TEXT_STYLE.combo}/>
                 <Text text={"0"} ref={this.scoreTextRef}{...DEFAULT_DIMENSIONS.SCORE_NUMBER} style={STATIC_TEXT_STYLE.score}></Text>
-                <Text {...{style:STATIC_TEXT_STYLE.difficulty,...DEFAULT_DIMENSIONS.STATIC_TEXT.difficulty}} text={'魔王'}/>
+                <Text ref={this.difficultyTextRef} {...{style:STATIC_TEXT_STYLE.difficulty,...DEFAULT_DIMENSIONS.STATIC_TEXT.difficulty}}/>
             </>)
     }
 }

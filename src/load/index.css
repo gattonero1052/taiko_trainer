@@ -1,15 +1,16 @@
 @font-face {
     font-family: 'TnT';
-    src: local('TnT'), url('http://lc-x3QTObAS.cn-n1.lcfile.com/HQcjo8vhI4hFPmEQmBJXuoLFaT5tONB9/TnT.ttf') format('truetype');
-    /* src: local('TnT'), url(../assets/font/TnT.ttf) format('truetype'); */
+    /* src: local('TnT'), url('http://lc-x3QTObAS.cn-n1.lcfile.com/HQcjo8vhI4hFPmEQmBJXuoLFaT5tONB9/TnT.ttf') format('truetype'); */
+    src: local('TnT'), url(../assets/font/TnT-subset.ttf) format('truetype');
 }
 /*青柠幼圆*/
 @font-face {
     font-family: 'qnyy';
-    src: local('qnyy'), url('http://lc-x3QTObAS.cn-n1.lcfile.com/VByaH72jLIqE7hDIj0zrHkkbouC7Kqdh/qnyy.ttf') format('truetype');
+    src: local('qnyy'), url(../assets/font/qnyy-subset.ttf) format('truetype');
 }
 
 @font-face {
     font-family: 'taiko';
-    src: local('taiko'), url('http://lc-x3QTObAS.cn-n1.lcfile.com/m0B0g8NLhqWYCMBqp0lcJduoRvz2j7qi/taiko.ttf') format('truetype');
+    /* src: local('taiko'), url('http://lc-x3QTObAS.cn-n1.lcfile.com/m0B0g8NLhqWYCMBqp0lcJduoRvz2j7qi/taiko.ttf') format('truetype'); */
+    src: local('taiko'), url(../assets/font/taiko-subset.ttf) format('truetype');
 }

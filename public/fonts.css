@@ -5,7 +5,7 @@
 
 @font-face {
     font-family: 'qnyy';
-    src: local('qnyy'), url(../../public/fonts/qnyy.ttf) format('truetype');
+    src: local('qnyy'), url(../../public/fonts/qnyy-subset.ttf) format('truetype');
 }
 
 @font-face {
