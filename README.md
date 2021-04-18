@@ -20,5 +20,5 @@ Some of the features are trimmed like the scoring, you can try [Taiko Web](https
 - Upload song from local disk 本地上传歌曲
 
 ### Not in TODO list 不打算做的
-- 适配移动端
-- 多人游戏
+- Mobile device adaption 适配移动端
+- Multiplayer 多人游戏
