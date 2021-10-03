@@ -195,7 +195,9 @@ const Load = () => {
                     setImgLoadProgress(Math.min(99.99,Number(loader.progress).toFixed(2)))
                 })
 
-                loader.onError.add(e=>console.error(e))
+                loader.onError.add((a,b,c,d)=>{
+                    console.error(a)
+                })
         }
 
         getUserLocation(loadAll)
