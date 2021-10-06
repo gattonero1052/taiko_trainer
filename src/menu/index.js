@@ -28,7 +28,7 @@ import {
 import PIXISound from "pixi-sound";
 import SettingMenu from "./settings";
 import About from "./about";
-import DATA, { menuReducer, useLocalStorage } from "../common/commonUtil";
+import DATA, { menuReducer, useLocalKVStorage, useLocalStorage } from "../common/commonUtil";
 
 library.add(fas);
 
@@ -351,7 +351,7 @@ const Table = ({ data, parentKeyDown, currentSongRef }) => {
             currentSongRef.current = song;
             PIXISound.volumeAll = songObj["vol"] || 1;
             if (song) {
-              song.volume = overall.musicVolume;
+              song.volume = overall.musicVolume / 100;
               if (selectedSong.current && selectedSong.current.id == songObj.id)
                 song.play({
                   start: songObj["demostart"] || 0,
@@ -774,8 +774,10 @@ const Table = ({ data, parentKeyDown, currentSongRef }) => {
 };
 
 const Setting = ({ currentSongRef, parentKeyDown }) => {
+  const {set:setLocal,get:getLocal} = useLocalKVStorage()
+
   const [isSettingOpen, setIsSettingOpen] = useState(0);
-  const [isAboutOpen, setIsAboutOpen] = useState(0);
+  const [isAboutOpen, setIsAboutOpen] = useState(getLocal('skipInstructionOnStart')?0:1);
 
   //save settings automatically
   return (

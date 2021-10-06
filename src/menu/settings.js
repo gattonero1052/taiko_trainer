@@ -46,37 +46,44 @@ const Modal = ({ currentSongRef, isOpen, setIsOpen, onClose = () => { } }) => {
     }}>
         <div className={`modal-content`}>
             <div className='items'>
-                <div className='label'>Music volume</div>
+                <div className='label'>Music volume %</div>
                 <div className='input'>
-                    <select ref={ref=>getRef(ref,'musicVolume')} onChange={e=>{
-                        overall.musicVolume = e.target.value
+                  <datalist id="musicVolumes">
+                    <option value='0'></option>
+                    <option value='20'></option>
+                    <option value='40'></option>
+                    <option value='60'></option>
+                    <option value='80'></option>
+                    <option value='100'></option>
+                  </datalist>
+
+                  <input type="number" list="musicVolumes" min={0} max={100} ref={ref=>getRef(ref,'musicVolume')}
+                      onChange={e=>{
+                        overall.musicVolume = Number(e.target.value ) || 0
                         if(currentSongRef.current){
                             currentSongRef.current.volume = e.target.value
                         }
                         setLocalStorage()
-                    }}>
-                        <option value='0'>0</option>
-                        <option value='0.2'>20%</option>
-                        <option value='0.4'>40%</option>
-                        <option value='0.6'>60%</option>
-                        <option value='0.8'>80%</option>
-                        <option value='1'>100%</option>
-                    </select>
+                    }}></input>
                 </div>
 
-                <div className='label'>Effect volume</div>
+                <div className='label'>Effect volume %</div>
                 <div className='input'>
-                    <select ref={ref=>getRef(ref,'effectVolume')} onChange={e=>{
-                        overall.effectVolume = e.target.value
+                  <datalist id="effectVolumes">
+                      <option value='0'></option>
+                      <option value='20'></option>
+                      <option value='40'></option>
+                      <option value='60'></option>
+                      <option value='80'></option>
+                      <option value='100'></option>
+                    </datalist>
+
+                    
+                  <input type="number" list="musicVolumes" min={0} max={100} ref={ref=>getRef(ref,'effectVolume')}
+                      onChange={e=>{
+                        overall.effectVolume = Number(e.target.value ) || 0
                         setLocalStorage()
-                    }}>
-                        <option value='0'>0</option>
-                        <option value='0.2'>20%</option>
-                        <option value='0.4'>40%</option>
-                        <option value='0.6'>60%</option>
-                        <option value='0.8'>80%</option>
-                        <option value='1'>100%</option>
-                    </select>
+                    }}></input>
                 </div>
 
                 <div className='label'>Delay (ms)</div>

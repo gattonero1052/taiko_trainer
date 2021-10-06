@@ -14,6 +14,7 @@ class TabSong {
         this.nextProgressStart = -1
         this.config = {
             start:0,
+            volume: (DefaultGlobalState.musicVolume / 100) || 1,
             singleInstance:true,
             speed:1,
         }
@@ -123,8 +124,8 @@ const DefaultGlobalState = {
     loader:null,
     //IN DEBUGGING, set to true
     loadComplete:true,
-    musicVolume:1,
-    effectVolume:1,
+    musicVolume:100,
+    effectVolume:100,
     delay:0,
     judgeMode:DEFAULT_SETTING.judgeMode,
     keyBoard:{...DEFAULT_SETTING.KEYBOARD},

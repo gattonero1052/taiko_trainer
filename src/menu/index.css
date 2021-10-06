@@ -24,11 +24,15 @@ div{
     border: 0 solid #e5e7eb;
 }
 
-.modal-content{
-    margin:auto;
+
+.modal-content {
+    display: grid;
+    font-family: 'TnT';
+    font-size: 1.2rem;
+    padding:2em 1em;
     width:auto;
-    display:flex;
-    flex-direction:column;
+    color:white;
+    grid-template-columns:repeat(1,minmax(0,1fr));
     background-clip:padding-box;
     border:1px solid rgba(0,0,0,.2);
     border-radius:1rem;
@@ -40,33 +44,27 @@ div{
         inset -5px -5px 0px 5px#2285C7;
 }
 
-.modal-content .about{
-    display: grid;
-    font-size: 1.5rem;
-    padding:2em 1em;
-    gap:1.5rem;
-    width:auto;
-    color:white;
-    grid-template-columns:repeat(1,minmax(0,1fr));
-}
-
 .modal-content .about .content p{
     margin: .5rem auto;
 }
 
 .modal-content .about .content{
-    margin-left:4rem;
+  margin:1rem 0 1rem 4rem;
+    /* margin-left:4rem; */
 }
+
 .modal-content a{
-    text-shadow: none;
+    font-family: 'TnT';
+    color:white;
+    text-shadow: 2px -2px 3px rgba(0,0,0,.5);
     text-decoration: none;
 }
 
 .modal-content .author{
     display: grid;
     font-size: 1.0rem;
-    padding:2em 1em;
-    gap:1.5rem;
+    padding:1em;
+    gap:.5rem;
     width:auto;
     color:white;
     grid-template-columns:repeat(2,minmax(0,1fr));
@@ -81,15 +79,46 @@ div{
     color:white;
     grid-template-columns:repeat(2,minmax(0,1fr));
 }
+.modal-content .name{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-content .skip-instruction{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.modal-content .skip-instruction input{
+  cursor: pointer;
+  width:1.5rem;
+  height:1.5rem;
+  outline:4px solid #1e5180;
+}
 
 .modal-content .items .label, .modal-content .items .input{
     line-height:2rem;
+    margin: 0;
+
     height:2rem;
     display:flex;
     align-items: center;
     width:auto;
 }
 
+span.key{
+  color:#ff5710;
+  border-radius: 1rem;
+  padding:6px;
+  background:rgba(0,0,0,.5);
+  border: 4px solid transparent;
+}
+
+span.key:hover{
+  border-color: rgba(255,255,255,.7);
+}
 
 .modal-content .items .label{
     justify-content: flex-start;
@@ -127,6 +156,10 @@ div{
     max-width: 50rem;
     margin: 0;
     padding: 0;
+}
+
+.tr{
+  font-family: 'TnT';
 }
 
 .th, .td, .td-b, .th-b {

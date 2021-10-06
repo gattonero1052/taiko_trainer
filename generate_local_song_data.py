@@ -10,7 +10,7 @@ output_name = 'local_song.json'
 FileEncoding = 'utf8'
 Extreme_Indicators = ['(裏譜面)']
 fileStoragePrefix = 'http://lc-x3QTObAS.cn-n1.lcfile.com/'
-
+AmazonS3Prefix = 'https://taiko-trainer.s3.ap-northeast-1.amazonaws.com/'
 def getColor(s):
     m = {
         'anime':'EE5208',
@@ -176,10 +176,21 @@ with open(leanCloudStorageJson,encoding='utf8') as lcfile:
                 stack = ''
 
     for song in data['songs']:
+        # from leancloud
         if song['Title'] not in remote_files:
             print(f'Song {song["Title"]} not found')
         else:
             song['remote_files'] = {k:fileStoragePrefix + v + f'/{song["Title"]}.{k}' for k,v in remote_files[song['Title']].items()}
+
+        # from amazon s3
+        # https://taiko-trainer.s3.ap-northeast-1.amazonaws.com/song/Anime/
+        link = AmazonS3Prefix + f'song/{song["Genre"]}/{song["Title"]}.'
+
+        song['remote_files'] = {
+          'ogg':link + 'ogg',
+          'tja':link + 'tja',
+        }
+
         for ex in Extreme_Indicators + ['']:
             title = song['Title'].replace(ex,'')
             if title in songWithSound:

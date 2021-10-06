@@ -6,7 +6,8 @@ import { DefaultGlobalState as overall, DefaultGameState as game } from "../play
 
 const PlaySound = name => {
     try {
-        overall.loader.resources['sound_' + name].sound.volume = overall.effectVolume
+      console.log(overall.effectVolume / 100)
+        overall.loader.resources['sound_' + name].sound.volume = overall.effectVolume / 100
         overall.loader.resources['sound_' + name].sound.play()
     } catch (e) {
         console.error('Resource not found: ' + name)

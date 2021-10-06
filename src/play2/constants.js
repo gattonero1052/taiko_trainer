@@ -111,9 +111,9 @@ const STATIC_TEXT_STYLE = {
     },
     game_menu: {
         fontFamily: 'taiko',
-        fontSize: 70,
+        fontSize: 50,
         fill: '#ffffff',
-        letterSpacing: 15,
+        letterSpacing: 10,
         stroke: '#000000',
         strokeThickness: 10,
     },
@@ -270,7 +270,7 @@ const autoFit = () => {
         fit(d.BRANCH_NAME)
         fit(d.MENU_CONSTANTS, { skips: ['w', 'h'] })
         fit(d.BG, { ys: ['MOVING_ELEMENTS_HEIGHT'] })
-        fit(d.GGT, { ss: ['fireSize'] })
+        fit(d.GGT, { standard:true, ss: ['fireSize'] })
         fit(d.SCORE_COMBO)
         fit(d.SCORE_NUMBER)
         fitAll(d.STATIC_TEXT)

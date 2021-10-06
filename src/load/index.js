@@ -48,32 +48,33 @@ const DebuggingSingleSongTitle = ""
 const DebuggingSingleSongLevel = 2
 let DebuggingSong = null
 
-const remoteResourceLinks = 
-`http://lc-x3QTObAS.cn-n1.lcfile.com/muFqhO8ge5toQ2AoNWOcdLFC7V5gHupQ/taiko-normal-ka2.wav
-http://lc-x3QTObAS.cn-n1.lcfile.com/pH9dMfCzINXXMfPSJRA48LYbJPeufgQB/taiko-normal-ka.wav
-http://lc-x3QTObAS.cn-n1.lcfile.com/DTJhxeMbJ5tboFRwkQNAhreLLHxlYy8g/taiko-normal-don2.wav
-http://lc-x3QTObAS.cn-n1.lcfile.com/UwmffOUn4PmduAY3lWCzVC6DYYuR1Deu/taiko-normal-don.wav
-http://lc-x3QTObAS.cn-n1.lcfile.com/DKpBHJ7EOBgXfgnVvfhbJLfk9NRF17Na/spinnerbonus.wav
-http://lc-x3QTObAS.cn-n1.lcfile.com/DHJEFUYRBUu9oNeDRae0e4A1RXYBW261/res-success-2.wav
-http://lc-x3QTObAS.cn-n1.lcfile.com/38dizGMSSEH9CqfXS8iLmvH5XDqDhN1P/res-success-1.mp3
-http://lc-x3QTObAS.cn-n1.lcfile.com/qMquPorCOToNYBtemJ8Qpa3oL14wCJq2/res-fail.mp3
-http://lc-x3QTObAS.cn-n1.lcfile.com/JbbToVfc8nUm9ncnl3lNQJswbyXqoi39/readys.wav
-http://lc-x3QTObAS.cn-n1.lcfile.com/fUaLHhirknHjlKLTVhqeLFmna4MbQU71/menu-ka.wav
-http://lc-x3QTObAS.cn-n1.lcfile.com/kxI2F6NsyIGkluhYgbc5omzERh3YUS0h/menu-don.wav
-http://lc-x3QTObAS.cn-n1.lcfile.com/y8CLYm7h0IBCu4wVfSqtYWz3tPuyrsi4/menu-back.wav
-http://lc-x3QTObAS.cn-n1.lcfile.com/XNsEz6YaM5Xa4gDL21pfGpnW5T9OaCUF/comboburst-10.wav
-http://lc-x3QTObAS.cn-n1.lcfile.com/VLXAOlx7D21VDN4gNuFmqMeSciY8uBAr/comboburst-9.wav
-http://lc-x3QTObAS.cn-n1.lcfile.com/6c6d13jEp9vDxqSfHiI7PkfPjtLsUtYF/comboburst-8.wav
-http://lc-x3QTObAS.cn-n1.lcfile.com/QUTSWnEtKHA5fNmYbjdcn7pEO8K85b7I/comboburst-7.wav
-http://lc-x3QTObAS.cn-n1.lcfile.com/S87kx5JeDYsDx4o5IaiOBFDF7dwYMa36/comboburst-6.wav
-http://lc-x3QTObAS.cn-n1.lcfile.com/aERGU37SFuE7MPMYaV65EvkLcS1HHp3g/comboburst-5.wav
-http://lc-x3QTObAS.cn-n1.lcfile.com/A3V24pkdpmyTlQiMhXRju3sbzCCItilI/comboburst-4.wav
-http://lc-x3QTObAS.cn-n1.lcfile.com/76A9lGTeUKvXBeEsdft0LuV15aBL6dll/comboburst-3.wav
-http://lc-x3QTObAS.cn-n1.lcfile.com/IeWGpsibirh24EfcJucqXsykn2HDx2ya/comboburst-2.wav
-http://lc-x3QTObAS.cn-n1.lcfile.com/uRskkoFU5tjvm3iuwLpPjKnAtWKT660s/comboburst-1.wav
-http://lc-x3QTObAS.cn-n1.lcfile.com/c3QgFulcXI2LiYtl9uxj4NvG8XtEPx6x/combobreak.wav
-http://lc-x3QTObAS.cn-n1.lcfile.com/LgDk82XNY2HRh3zx8z00pIgEvUJb3szl/comboburst-0.wav
-http://lc-x3QTObAS.cn-n1.lcfile.com/PR8YQLlR3cYGIO0zyviIXii1ynQBmlyg/balloon.wav`
+const soundResources = [
+  'comboburst-0.wav',
+  'comboburst-1.wav',
+  'comboburst-2.wav',
+  'comboburst-3.wav',
+  'comboburst-4.wav',
+  'comboburst-5.wav',
+  'comboburst-6.wav',
+  'comboburst-7.wav',
+  'comboburst-8.wav',
+  'comboburst-9.wav',
+  'comboburst-10.wav',
+  'menu-back.wav',
+  'menu-don.wav',
+  'menu-ka.wav',
+  'readys.wav',
+  'res-fail.mp3',
+  'res-success-1.mp3',
+  'res-success-2.wav',
+  'spinnerbonus.wav',
+  'taiko-normal-don.wav',
+  'taiko-normal-don2.wav',
+  'taiko-normal-ka.wav',
+  'taiko-normal-ka2.wav',
+]
+
+const AmazonS3Prefix = "https://taiko-trainer.s3.ap-northeast-1.amazonaws.com/"
 
 const localResourceLinks = {
     comboburst_0:comboburst_0,
@@ -116,17 +117,17 @@ const Load = () => {
         autoFit()
 
         function loadAll(location){
+            /**************** NOT USED ******************/
+            // TODO load resource based on user's country
             let resourceMap = {}
-            let links = remoteResourceLinks.split('\n')
 
-            for(let link of links){
-                let fileName = link.substring(1 + link.lastIndexOf('/'),link.lastIndexOf('.')).replace('-','_')
-                if(location=='PRC'){
-                    resourceMap[fileName] = link
-                }else{
-                    resourceMap[fileName] = localResourceLinks[fileName]
-                }
+            for(let resource of soundResources){
+                let fileName = resource.replace('-','_')
+
+                //default amazon s3
+                resourceMap[fileName] = AmazonS3Prefix + 'sound/' + resource
             }
+            /**************** NOT USED *****************/
 
             WebFont.load({
                 custom: {
@@ -153,7 +154,6 @@ const Load = () => {
                 Genre = DebuggingSong.Genre
             }
 
-    
             loader
                 .add('note-base', note_base)
                 .add('bg-base', bg_base)
@@ -266,7 +266,7 @@ const Load = () => {
                 fontSize:'2rem',
                 fontFamily:'TnT',
                 color:'#111'
-            }}>Taiko trainer Version: 1.0.0</div>
+            }}>Taiko trainer Version: 0.1.1</div>
         </div>
         </div>
     </div>)
