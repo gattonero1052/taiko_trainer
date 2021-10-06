@@ -61,7 +61,7 @@ const Modal = ({ currentSongRef, isOpen, setIsOpen, onClose = () => { } }) => {
                       onChange={e=>{
                         overall.musicVolume = Number(e.target.value ) || 0
                         if(currentSongRef.current){
-                            currentSongRef.current.volume = e.target.value
+                            currentSongRef.current.volume = (e.target.value / 100)
                         }
                         setLocalStorage()
                     }}></input>
